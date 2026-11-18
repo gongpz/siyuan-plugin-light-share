@@ -42,15 +42,27 @@
 
 ## 安装
 
-1. 把 `siyuan-static-share` 目录放到工作空间的插件目录：
+### 从集市安装（推荐）
+
+上架后：打开思源 → **设置 → 集市** → 搜索「轻态分享」→ 安装并启用。
+
+### 手动安装
+
+1. 从 [Releases](https://github.com/gongpz/siyuan-plugin-light-share/releases) 下载最新的 `package.zip`。
+2. 在工作空间里先建好插件目录（目录名必须是 `siyuan-static-share`）：
 
    ```
    <思源工作空间>/data/plugins/siyuan-static-share/
    ```
 
-   目录内应能看到 `plugin.json`、`index.js`、`index.css`、`i18n/`、`icon.png`、`preview.png`。
-2. 打开思源 → **设置 → 插件** → 找到「轻态分享」→ 启用。
-3. 如果没有出现，刷新一次界面或重启思源。
+3. 把 `package.zip` 里的内容解压到该目录，最终应能看到：
+
+   ```
+   plugin.json  index.js  index.css  i18n/  icon.png  preview.png
+   ```
+
+4. 打开思源 → **设置 → 插件** → 找到「轻态分享」→ 启用。
+5. 如果没有出现，刷新一次界面或重启思源。
 
 > 插件入口是根目录的 `index.js`，没有构建步骤，复制目录即可用。
 
@@ -257,7 +269,7 @@ node tools/runtime-verify.js
 
 当前自检结果：`selfcheck` **118 通过 / 0 失败**，`runtime-verify` **25 通过 / 0 失败**。
 
-图标来源：`design/icon-source.svg`；版本：**1.5.5**。
+图标来源：`design/icon-source.svg`；版本：**1.5.6**。
 
 ---
 

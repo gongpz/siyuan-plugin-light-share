@@ -27,11 +27,11 @@ jobs:
             --exclude '*.zip' \
             --exclude dist \
             ./ dist/siyuan-static-share/
-          cd dist
-          zip -r ../siyuan-static-share.zip siyuan-static-share
+          cd dist/siyuan-static-share
+          zip -r ../../package.zip .
 
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          files: siyuan-static-share.zip
+          files: package.zip
           generate_release_notes: true
