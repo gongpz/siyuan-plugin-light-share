@@ -5,3 +5,11 @@ dist/
 .DS_Store
 Thumbs.db
 .tmp/
+
+# 内部设计草稿 / 截图（不随插件发布）
+design/*.md
+design/*.png
+!design/icon-large.png
+design/*.html
+!design/siyuan-share-skeleton.html
+build-magazine-test.js
