@@ -1,0 +1,37 @@
+﻿name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Package plugin
+        run: |
+          rm -rf dist
+          mkdir -p dist/siyuan-static-share
+          rsync -a \
+            --exclude node_modules \
+            --exclude .git \
+            --exclude .github \
+            --exclude '*.zip' \
+            --exclude dist \
+            ./ dist/siyuan-static-share/
+          cd dist
+          zip -r ../siyuan-static-share.zip siyuan-static-share
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: siyuan-static-share.zip
+          generate_release_notes: true

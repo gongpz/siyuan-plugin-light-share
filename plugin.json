@@ -1,0 +1,57 @@
+{
+  "name": "siyuan-static-share",
+  "version": "1.5.5",
+  "author": "Mask",
+  "url": "https://github.com/gongpz/siyuan-plugin-light-share",
+  "displayName": {
+    "default": "Light Share",
+    "zh-CN": "轻态分享"
+  },
+  "description": {
+    "default": "Export SiYuan documents to standalone static pages with password, images, math and code highlighting",
+    "zh-CN": "把思源文档导出为独立静态网页：支持密码保护、图片、公式、代码高亮，并可管理已发布链接。"
+  },
+  "minAppVersion": "3.1.0",
+  "kernels": [
+    "windows",
+    "linux",
+    "darwin",
+    "ios",
+    "android",
+    "harmony",
+    "docker",
+    "all"
+  ],
+  "backends": [
+    "windows",
+    "linux",
+    "darwin",
+    "ios",
+    "android",
+    "harmony",
+    "docker",
+    "all"
+  ],
+  "frontends": [
+    "desktop",
+    "mobile",
+    "browser-desktop",
+    "browser-mobile",
+    "desktop-window",
+    "all"
+  ],
+  "icon": "icon.png",
+  "preview": "preview.png",
+  "readme": {
+    "default": "README.md",
+    "zh-CN": "README.md"
+  },
+  "settingsWindow": false,
+  "keywords": [
+    "static",
+    "share",
+    "public",
+    "静态页",
+    "外链"
+  ]
+}

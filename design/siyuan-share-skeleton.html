@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E0E0F" media="(prefers-color-scheme: dark)">
+<meta name="referrer" content="no-referrer-when-downgrade">
+<meta name="sy-build" content="{{BUILD_STAMP}}">
+
+<!-- 标题占位符：插件用 data.name 替换 -->
+<title>{{DOC_TITLE}} · {{SITE_NAME}}</title>
+<meta name="description" content="{{DOC_SUMMARY}}">
+<meta name="author" content="{{DOC_AUTHOR}}">
+
+<!-- Open Graph / 社交卡片（外链分享的关键） -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="{{DOC_TITLE}}">
+<meta property="og:description" content="{{DOC_SUMMARY}}">
+<meta property="og:url" content="{{PAGE_URL}}">
+<meta property="og:image" content="{{PAGE_URL}}assets/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- 样式：令牌 + 组件，单文件内联，保证脱离思源也能独立打开 -->
+<style>
+/* >>> INLINE: siyuan-share-tokens.css 的完整内容 <<< */
+</style>
+</head>
+<body>
+
+<a class="sy-skip" href="#sy-main">跳到正文</a>
+
+<!-- ========== 页眉 ========== -->
+<header class="sy-header" data-scrolled="false">
+  <div class="sy-header__inner">
+    <!-- 窄屏目录抽屉开关（≥1024px 隐藏） -->
+    <button class="sy-toc-toggle" type="button" aria-controls="sy-toc" aria-expanded="false">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+        <path d="M2.5 4h11M2.5 8h11M2.5 12h7"/>
+      </svg>
+      目录
+    </button>
+
+    <div class="sy-header__actions">
+      <!-- 主题切换：跟随系统 → 浅 → 深 循环 -->
+      <button class="sy-iconbtn" type="button" data-action="toggle-theme" title="切换主题" aria-label="切换主题">
+        <svg data-icon="theme" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="8" cy="8" r="3.2"/>
+          <path d="M8 1v1.6M8 13.4V15M15 8h-1.6M2.6 8H1M12.9 3.1l-1.1 1.1M4.2 11.8l-1.1 1.1M12.9 12.9l-1.1-1.1M4.2 4.2L3.1 3.1"/>
+        </svg>
+      </button>
+
+      <!-- 复制本页链接 -->
+      <button class="sy-iconbtn" type="button" data-action="copy-link" title="复制链接" aria-label="复制链接">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6.5 9.5a2.8 2.8 0 0 0 4 0l2-2a2.83 2.83 0 0 0-4-4l-1 1"/>
+          <path d="M9.5 6.5a2.8 2.8 0 0 0-4 0l-2 2a2.83 2.83 0 0 0 4 4l1-1"/>
+        </svg>
+      </button>
+
+      <!-- 打印 / 另存 PDF -->
+      <button class="sy-iconbtn" type="button" data-action="print" title="打印 / 另存为 PDF" aria-label="打印">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4.5 6V2h7v4M4.5 12H3a1 1 0 0 1-1-1V7.5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1V11a1 1 0 0 1-1 1h-1.5"/>
+          <path d="M4.5 9.5h7V14h-7z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- 窄屏目录遮罩 -->
+<div class="sy-scrim" data-open="false" aria-hidden="true"></div>
+
+<!-- ========== 主体 ========== -->
+<!--
+  DOM 顺序为「正文 → 目录」：读屏与键盘 Tab 顺序应先走正文，目录作为辅助导航靠后。
+  视觉上目录仍在右侧——由 CSS .sy-main / .sy-toc 的 grid-column 显式指定列位实现，
+  不可依赖 Grid 的自动填充（自动填充会让 DOM 中靠前的目录抢占正文列）。
+-->
+<div class="sy-layout">
+
+  <!-- 正文 -->
+  <main class="sy-main" id="sy-main">
+    <article class="sy-doc">
+
+      <!-- 文档元信息条：分享页的信任锚点（不显示笔记本标签） -->
+      <header class="sy-doc-head">
+        <h1>{{DOC_TITLE}}</h1>
+        <p class="sy-doc-head__meta">
+          <span>更新于 {{UPDATED_AT}}</span>
+          <span class="sy-footer__sep">·</span>
+          <span>约 {{READ_MINUTES}} 分钟读完</span>
+        </p>
+      </header>
+
+      <!--
+        正文内容注入点：
+        插件将 POST /api/export/exportHTML 返回的 data.content（正文 HTML 片段）
+        经过「类名归一化」后注入此处。归一化规则见规范文档 §7.2。
+        注意：data.content 不含 <html>/<head>/<style>/<script>，因此本模板必须自带全部样式。
+      -->
+      {{DOC_CONTENT}}
+
+    </article>
+
+    <!-- ========== 页脚 ========== -->
+    <footer class="sy-footer" id="sy-footer">
+      <div class="sy-footer__row">
+        <div class="sy-footer__meta">
+          <span>最后更新 {{UPDATED_AT}}</span>
+          <span class="sy-footer__sep">·</span>
+          <span>{{WORD_COUNT}} 字</span>
+          <span class="sy-footer__sep">·</span>
+          <span>{{FOOTER_BRAND}}</span>
+        </div>
+      </div>
+      <p style="margin:var(--sy-sp-4) 0 0" id="sy-footer-note">
+        {{FOOTER_NOTE}}
+      </p>
+    </footer>
+  </main>
+
+  <!-- 目录（≥1024px 常驻右侧，窄屏变为左侧抽屉） -->
+  <aside class="sy-toc" id="sy-toc" data-open="false" aria-label="目录">
+    <p class="sy-toc__title">目录</p>
+    <ul class="sy-toc__list">
+      <!-- 插件按正文 h1-h3 生成，缩进用 --sy-toc-indent 控制层级 -->
+      <li><a class="sy-toc__link" href="#h-1" style="--sy-toc-indent:0">一级标题</a></li>
+      <li><a class="sy-toc__link" href="#h-2" style="--sy-toc-indent:1">二级标题</a></li>
+      <li><a class="sy-toc__link" href="#h-3" style="--sy-toc-indent:2">三级标题</a></li>
+    </ul>
+  </aside>
+
+</div>
+
+<!-- ========== 脚本（可选；用于主题切换、复制、目录高亮、KaTeX 渲染） ========== -->
+<script>
+/* 主题：默认跟随系统；用户手动切换后写入 localStorage 并锁定 data-theme */
+(function () {
+  var KEY = 'siyuan-share-theme';
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  var root = document.documentElement;
+  if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+  else root.removeAttribute('data-theme');
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-action="toggle-theme"]');
+    if (!btn) return;
+    var cur = root.getAttribute('data-theme');
+    var next = cur === 'dark' ? 'light' : (cur === 'light' ? '' : 'dark');
+    if (next) { root.setAttribute('data-theme', next); } else { root.removeAttribute('data-theme'); }
+    try { if (next) localStorage.setItem(KEY, next); else localStorage.removeItem(KEY); } catch (e) {}
+  });
+})();
+
+/* 页眉滚动分隔线 */
+(function () {
+  var h = document.querySelector('.sy-header');
+  if (!h) return;
+  var onScroll = function () { h.setAttribute('data-scrolled', window.scrollY > 8 ? 'true' : 'false'); };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
+
+/* 窄屏目录抽屉 */
+(function () {
+  var toc = document.getElementById('sy-toc');
+  var scrim = document.querySelector('.sy-scrim');
+  var toggle = document.querySelector('.sy-toc-toggle');
+  if (!toc || !toggle) return;
+  function setOpen(v) {
+    toc.setAttribute('data-open', String(v));
+    if (scrim) scrim.setAttribute('data-open', String(v));
+    toggle.setAttribute('aria-expanded', String(v));
+  }
+  toggle.addEventListener('click', function () { setOpen(toc.getAttribute('data-open') !== 'true'); });
+  if (scrim) scrim.addEventListener('click', function () { setOpen(false); });
+  toc.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
+})();
+
+/* 复制链接 */
+(function () {
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-action="copy-link"]');
+    if (!btn) return;
+    var url = location.href;
+    var done = function () {
+      btn.setAttribute('data-state', 'done');
+      btn.style.color = 'var(--sy-success-ink)';
+      setTimeout(function () { btn.removeAttribute('data-state'); btn.style.color = ''; }, 1400);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done, function () {});
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+  });
+})();
+
+/* 打印 */
+(function () {
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-action="print"]')) window.print();
+  });
+})();
+</script>
+
+<!--
+  KaTeX 与 highlight.js 的落地说明（视觉规范关键约束）：
+
+  两者都必须随静态页自带，绝不能引用思源内核的 /stage/ 资源。
+  原因：/stage/build/export/ 与 /stage/protyle/ 仅在「设置了访问授权码」时放行，
+  未设授权码时远程请求会被 401 拦截；/appearance/ 主题 CSS 同理。
+
+  推荐做法（v1.1 已定：共享目录方案，各页不单独复制以避免每页 ~1.5MB 膨胀）：
+  插件首次发布时写入 data/public/_static/，各页用相对路径跨目录向上引用：
+     <link rel="stylesheet" href="../_static/katex/katex.min.css">
+     <script src="../_static/katex/katex.min.js"></script>
+     <script src="../_static/highlight.min.js"></script>
+  KaTeX 字体 20 个 woff2 位于 ../_static/katex/fonts/，由 katex.min.css 自动解析。
+  正文图片仍落到与本页同级的 assets/ 子目录，用相对路径 assets/xxx.png 引用。
+  整页位于 public/<slug>/index.html，故 ../_static/ 是跨目录向上引用，务必保持此层级。
+
+  公式：思源导出产物中公式为 <span data-type="math-block" data-content="..."></span>，
+  页面侧需遍历并调用 katex.render(el.dataset.content, el, {displayMode:true})。
+  容器建议包裹 .sy-math 以获得居中、边框与窄屏横向滚动。
+-->
+</body>
+</html>
