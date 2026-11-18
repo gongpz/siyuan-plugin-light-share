@@ -11,6 +11,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # 插件要求安装目录名与 plugin.json 的 name 一致，CI 里也按这个名字检出
+          path: siyuan-static-share
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -18,10 +21,13 @@ jobs:
           node-version: "22"
 
       - name: Install test deps
+        working-directory: siyuan-static-share
         run: npm install jsdom jsqr --no-save
 
       - name: Self check
+        working-directory: siyuan-static-share
         run: node tools/selfcheck.js
 
       - name: Runtime verify
+        working-directory: siyuan-static-share
         run: node tools/runtime-verify.js
