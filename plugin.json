@@ -1,6 +1,6 @@
 {
   "name": "siyuan-static-share",
-  "version": "1.5.6",
+  "version": "1.5.7",
   "author": "Mask",
   "url": "https://github.com/gongpz/siyuan-plugin-light-share",
   "displayName": {
@@ -13,31 +13,12 @@
   },
   "minAppVersion": "3.1.0",
   "kernels": [
-    "windows",
-    "linux",
-    "darwin",
-    "ios",
-    "android",
-    "harmony",
-    "docker",
     "all"
   ],
   "backends": [
-    "windows",
-    "linux",
-    "darwin",
-    "ios",
-    "android",
-    "harmony",
-    "docker",
     "all"
   ],
   "frontends": [
-    "desktop",
-    "mobile",
-    "browser-desktop",
-    "browser-mobile",
-    "desktop-window",
     "all"
   ],
   "icon": "icon.png",

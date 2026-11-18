@@ -1,5 +1,11 @@
 ﻿# 更新日志
 
+## v1.5.7
+
+- 集市检查修复：`kernels` / `backends` / `frontends` 只保留 `["all"]`，不再与具体平台混用。
+- `package.zip` 改为显式打包运行文件（plugin.json、index.js、index.css、i18n、图标、README、LICENSE），不再包含 `.gitignore`、`.gitattributes` 等点文件。
+- 重新发布并在集市 PR 中复检。
+
 ## v1.5.6
 
 - 发布资产改为集市规范的 `package.zip`（zip 根目录直接包含 `plugin.json`、`index.js` 等文件）。

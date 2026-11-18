@@ -28,8 +28,9 @@ console.log("\n[1] 清单与文件");
 const manifest = JSON.parse(read("plugin.json"));
 check("plugin.json 是合法 JSON", true);
 check("name 等于目录名", manifest.name === path.basename(ROOT), manifest.name + " / " + path.basename(ROOT));
-check("frontends 含 desktop 与 browser-desktop",
-  manifest.frontends.indexOf("desktop") >= 0 && manifest.frontends.indexOf("browser-desktop") >= 0,
+check("frontends 含 desktop 与 browser-desktop（或仅 all）",
+  manifest.frontends.indexOf("all") >= 0 ||
+  (manifest.frontends.indexOf("desktop") >= 0 && manifest.frontends.indexOf("browser-desktop") >= 0),
   manifest.frontends.join(","));
 check("minAppVersion 为 3.1.0", manifest.minAppVersion === "3.1.0", manifest.minAppVersion);
 ["index.js", "index.css", "i18n/zh_CN.json", "i18n/en_US.json", "icon.png", "preview.png", "README.md"]

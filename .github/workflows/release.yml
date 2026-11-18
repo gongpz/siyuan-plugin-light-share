@@ -19,16 +19,11 @@ jobs:
       - name: Package plugin
         run: |
           rm -rf dist
-          mkdir -p dist/siyuan-static-share
-          rsync -a \
-            --exclude node_modules \
-            --exclude .git \
-            --exclude .github \
-            --exclude '*.zip' \
-            --exclude dist \
-            ./ dist/siyuan-static-share/
-          cd dist/siyuan-static-share
-          zip -r ../../package.zip .
+          mkdir -p dist
+          cp plugin.json index.js index.css icon.png preview.png README.md LICENSE dist/
+          cp -r i18n dist/
+          cd dist
+          zip -r ../package.zip .
 
       - name: Create release
         uses: softprops/action-gh-release@v2
