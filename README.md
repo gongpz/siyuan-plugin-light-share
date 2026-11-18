@@ -261,4 +261,4 @@ node tools/runtime-verify.js
 
 ---
 
-作者：**Mask** · GitHub：<https://github.com/gongpz>
+作者：**Mask** · GitHub：<https://github.com/gongpz/siyuan-plugin-light-share>
