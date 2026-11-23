@@ -37,13 +37,9 @@ def rounded(draw, box, radius, fill=None, outline=None, width=1):
 
 
 def make_icon():
-    """主图标来自 design/icon-large.png（由 design/icon-source.svg 高分辨率渲染）。"""
-    icon = Image.open(ICON_FULL).convert("RGBA")
-    inner = 154
-    icon = icon.resize((inner, inner), Image.Resampling.LANCZOS)
-    canvas = Image.new("RGBA", (160, 160), (0, 0, 0, 0))
-    canvas.paste(icon, ((160 - inner) // 2, (160 - inner) // 2), icon)
-    canvas.save(os.path.join(ROOT, "icon.png"))
+    """主图标来自 design/icon-full.png（不透明底，避免透明区域被宿主渲染成黑色）。"""
+    icon = Image.open(ICON_FULL).convert("RGB").resize((160, 160), Image.Resampling.LANCZOS)
+    icon.save(os.path.join(ROOT, "icon.png"))
 
 
 def paste_intro_icon(image, size, center):
