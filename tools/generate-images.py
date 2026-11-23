@@ -37,8 +37,8 @@ def rounded(draw, box, radius, fill=None, outline=None, width=1):
 
 
 def make_icon():
-    """主图标来自 design/icon-full.png（不透明底，避免透明区域被宿主渲染成黑色）。"""
-    icon = Image.open(ICON_FULL).convert("RGB").resize((160, 160), Image.Resampling.LANCZOS)
+    """主图标来自 design/icon-full.png，保留原图 alpha，不添加背景、不加透明边距。"""
+    icon = Image.open(ICON_FULL).convert("RGBA").resize((160, 160), Image.Resampling.LANCZOS)
     icon.save(os.path.join(ROOT, "icon.png"))
 
 

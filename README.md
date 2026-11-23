@@ -269,7 +269,7 @@ node tools/runtime-verify.js
 
 当前自检结果：`selfcheck` **118 通过 / 0 失败**，`runtime-verify` **25 通过 / 0 失败**。
 
-图标来源：`design/icon-source.png`；版本：**1.5.11**。
+图标来源：`design/icon-source.png`；版本：**1.5.12**。
 
 ---
 
