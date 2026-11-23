@@ -5,6 +5,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ICON_LARGE = os.path.join(ROOT, "design", "icon-large.png")
+ICON_FULL = os.path.join(ROOT, "design", "icon-full.png")
 
 PAPER = "#FCFBF9"
 SURFACE = "#FFFFFF"
@@ -37,7 +38,7 @@ def rounded(draw, box, radius, fill=None, outline=None, width=1):
 
 def make_icon():
     """主图标来自 design/icon-large.png（由 design/icon-source.svg 高分辨率渲染）。"""
-    icon = Image.open(ICON_LARGE).convert("RGBA")
+    icon = Image.open(ICON_FULL).convert("RGBA")
     inner = 154
     icon = icon.resize((inner, inner), Image.Resampling.LANCZOS)
     canvas = Image.new("RGBA", (160, 160), (0, 0, 0, 0))

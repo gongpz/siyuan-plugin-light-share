@@ -11,6 +11,7 @@ design/*.md
 design/*.png
 !design/icon-large.png
 !design/icon-source.png
+!design/icon-full.png
 design/*.html
 !design/siyuan-share-skeleton.html
 build-magazine-test.js
